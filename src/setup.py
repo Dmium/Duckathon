@@ -1,10 +1,10 @@
 from setuptools import setup
 
 setup(
-    name='projectname',
-    packages=['projectname',
-              'projectname.controllers',
-              'projectname.models'],
+    name='duckathon',
+    packages=['duckathon',
+              'duckathon.controllers',
+              'duckathon.models'],
     include_package_data=True,
     install_requires=[
         'flask',
