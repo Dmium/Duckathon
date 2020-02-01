@@ -26,11 +26,11 @@ export default {
     }
   },
   created() {
-    this.$http.get('http://localhost:8000/login', {withCredentials: true})
+    this.$http.get('login', {withCredentials: true})
       .catch(e => {
         this.errors.push(e)
       })
-    this.$http.get('http://localhost:8000/playlists', {withCredentials: true})
+    this.$http.get('playlists', {withCredentials: true})
       .then(response => {
         // JSON responses are automatically parsed.
           console.log('notbad')

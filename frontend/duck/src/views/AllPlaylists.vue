@@ -2,15 +2,15 @@
   <div class="playlists">
     <h1>Your Playlists</h1>
     <ul class="playlist-container">
-        <PlaylistPreview class="playlist" title="Sample Playlist" description="A description" image="https://image.flaticon.com/icons/svg/2284/2284983.svg"/>
-        <PlaylistPreview class="playlist" title="Another sample playlist" description="Now these can be used in list rendering" image="https://image.flaticon.com/icons/svg/2284/2284983.svg"/>
+        <div v-for="playlist in playlists" :key="playlist.id">
+            <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url"/>
+        </div>
     </ul>
   </div>
 </template>
 
 <script>
 import PlaylistPreview from '../components/PlaylistPreview.vue';
-import axios from 'axios';
 
 export default {
   name: 'playlists',
@@ -23,13 +23,16 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:8000/playlists')
-    .then(response => {
-      this.playlists = response.data;
-    })
-    .catch(e => {
-      console.log(e);
-    })
+
+    this.$http.get('playlists', {withCredentials: true})
+      .then(response => {
+        // JSON responses are automatically parsed.
+        this.playlists = response.data.items
+        console.log(this.playlists[0]['images'][2]['url'])
+      })
+      .catch(e => {
+        this.errors.push(e)
+      })
   }
 }
 </script>
