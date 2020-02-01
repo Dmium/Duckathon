@@ -1,6 +1,7 @@
 <template>
   <div class="playlist-songs">
     <h1><b-img :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>  {{playlist.name}}</h1>
+    <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: id } }">Add Albums</b-button>
     <div class="playlist-table">
       <b-table-simple hover small caption-top responsive sticky-header borderless>
         <b-thead head-variant="dark">

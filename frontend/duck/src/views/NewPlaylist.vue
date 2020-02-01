@@ -35,7 +35,8 @@ export default {
   },
   methods: {
     onSubmit() {
-      // handle making new playlist
+        this.$http.post('playlists/create', this.playlist)
+        this.$router.push({ name: "playlists"})
     }
   }
 }
