@@ -11,6 +11,8 @@
           size="lg"
         ></b-form-input>
       </b-form-group>
+      <br/>
+      <PlaylistPreview class="playlist" :title="playlist.name" image="https://image.flaticon.com/icons/svg/2284/2284983.svg" id="new"/>
 
       <b-button type="submit" variant="primary" size="lg">Submit</b-button>
     </b-form>
@@ -18,12 +20,16 @@
 </template>
 
 <script>
+import PlaylistPreview from '../components/PlaylistPreview.vue';
 export default {
   name: 'newplaylist',
+  components: {
+      PlaylistPreview
+  },
   data() {
     return {
       playlist: {
-          name: null,
+          name: "Asd",
       },
     }
   },
