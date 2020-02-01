@@ -1,1 +1,0 @@
-from duckathon import app
