@@ -52,7 +52,7 @@ def logout(request):
 # OTHER VIEWS
 
 def add_to_playlists(request):
-    # Adds any number of tracks to all/ specified playlists, doesn't check for duplicates
+    """Adds any number of tracks to all/ specified playlists, doesn't check for duplicates."""
 
     playlists = None  # HARDCODED
     track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
@@ -70,12 +70,14 @@ def add_to_playlists(request):
 
 
 def playlist(request, id):
+    """Returns playlist details and details for its tracks."""
     user_id, _, sp = get_auth(request)
 
     return JsonResponse(sp.user_playlist(user_id, id, fields=None))
 
 
 def playlists(request):
+    """Returns all of a user's playlists."""
     _, _, sp = get_auth(request)
     results = sp.current_user_playlists(limit=50)
 
@@ -126,7 +128,3 @@ def merge_playlists(request):
     # result = sp.user_playlist_add_tracks(user_id, new_playlist_id, track_ids[:100], position=offset)
 
     return JsonResponse({'success': True})
-
-
-def test_page(request):
-    return render(request, 'duck/example.html')
