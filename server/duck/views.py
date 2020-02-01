@@ -73,7 +73,17 @@ def create_playlist(request):
     """Create a new playlist. Needs a title and optionally a description, collaborative boolean, public boolean, and image."""
     user_id, _, sp = get_auth(request)
 
-    playlist = sp.user_playlist_create(user_id, "TEMP2", public=False, description="test description")
+    # create playlist with name and description
+    playlist = sp.user_playlist_create(user_id, "TEMP2", description="test description")
+
+    print(playlist['href'])
+
+    # set public and collaborative
+    playlist = sp.user_playlist_change_details(user_id, playlist['href']['id'], public=True, collaborative=False)
+
+    # add image
+    # sp.playlist_upload_cover_image(playlist_id, image_b64)
+
 
     return JsonResponse(playlist)
 
