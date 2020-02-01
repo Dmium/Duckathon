@@ -53,6 +53,7 @@ def logout(request):
 
 def add_to_playlists(request):
     # Adds any number of tracks to all/ specified playlists, doesn't check for duplicates
+
     playlists = None  # HARDCODED
     track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
 
@@ -69,9 +70,9 @@ def add_to_playlists(request):
 
 
 def playlist(request, id):
-    _, _, sp = get_auth(request)
+    user_id, _, sp = get_auth(request)
 
-    return JsonResponse(sp.playlist_tracks(id, fields=None, limit=100))
+    return JsonResponse(sp.user_playlist(user_id, id, fields=None))
 
 
 def playlists(request):
@@ -82,7 +83,7 @@ def playlists(request):
     return JsonResponse(results)
 
 
-def playlists_merge(request):
+def merge_playlists(request):
     # Recover the data from the sent JSON, change as needed to work with UI
     # data = request.body
     # playlist_ids = data['playlist_ids']

@@ -1,10 +1,6 @@
 <template>
   <div class="playlists">
-    <h1>{{playlist.name}}</h1>
-    <ul class="playlist-container">
-        <!--<PlaylistPreview class="playlist" :title="this.playlist.name" :description="this.playlist.description" :image="this.playlist.images[0].url" :id="this.playlist.id"/>!-->
-        
-    </ul>
+    <p>hi</p>
   </div>
 </template>
 
@@ -12,23 +8,25 @@
 // import PlaylistPreview from '../components/PlaylistPreview.vue';
 
 export default {
-  name: 'playlist',
+  name: 'sampleposta',
   components: {
-    //   PlaylistPreview
   },
   data() {
     return {
       playlist: {},
-      tracks: [],
-      id: ""
+      tracks: []
     }
   },
   created() {
-    this.id = this.$route.params.id
-    this.$http.get('playlists/' + this.id)
+    this.$http.get('playlists')
       .then(response => {
         // JSON responses are automatically parsed.
-        this.playlist = response.data
+        this.$http.post('sample', response.data)
+            .then(response => {
+                console.log(response.data)
+            }).catch(e => {
+                this.errors.push(e)
+            })
       })
       .catch(e => {
         this.errors.push(e)
