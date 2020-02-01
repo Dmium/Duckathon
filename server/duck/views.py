@@ -1,6 +1,7 @@
 from . import keys
 
 import os
+import spotipy
 
 from django.http import HttpResponse
 from django.shortcuts import render, HttpResponseRedirect
@@ -11,17 +12,28 @@ from spotipy import oauth2
 def test_page(request):
     return render(request, 'duck/example.html')
 
+
 def callback(request):
-    return HttpResponse("Successfully logged in.")
+    # redirects here after Spotify login
+    token = 'http://localhost:8000/callback/?{}'.format(request.GET.urlencode())
+
+    sp_oauth = oauth2.SpotifyOAuth(keys.SPOTIFY_CLIENT_ID, keys.SPOTIFY_CLIENT_SECRET, keys.SPOTIFY_REDIRECT_URI, scope=keys.SCOPE)
+
+    code = sp_oauth.parse_response_code(token)
+    token_info = sp_oauth.get_access_token(code)
+
+    if token_info:
+        # store the Spotify token in the session
+        request.session['spotify_token'] = token_info['access_token']
+
+    return HttpResponse(request.session['spotify_token'])
+
 
 def login(request):
-    scope = 'user-library-read'
+    sp_oauth = oauth2.SpotifyOAuth(keys.SPOTIFY_CLIENT_ID, keys.SPOTIFY_CLIENT_SECRET, keys.SPOTIFY_REDIRECT_URI, scope=keys.SCOPE)
 
-    sp_oauth = oauth2.SpotifyOAuth(keys.SPOTIFY_CLIENT_ID, keys.SPOTIFY_CLIENT_SECRET, keys.SPOTIFY_REDIRECT_URI, scope=scope)
-
-    token_info = sp_oauth.get_cached_token()
-
-    if not token_info:
+    if 'spotify_token' not in request.session:
+        # if not logged in
         auth_url = sp_oauth.get_authorize_url()
         return HttpResponseRedirect(auth_url)
 
