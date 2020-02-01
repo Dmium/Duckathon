@@ -1,6 +1,9 @@
 <template>
   <div class="playlists">
     <h1><b-img :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>  {{playlist.name}}</h1>
+    <br/>
+    <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: id } }">Add Albums</b-button>
+    <br/>
     <ul class="playlist-container">
         <div v-for="track in tracks.items" :key="track.id">
             <TrackPreview class="playlist" :title="track.track.name" :artists="track.track.artists" :image="track.track.album.images[0].url" :id="track.track.id"/>
