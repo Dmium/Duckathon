@@ -1,6 +1,9 @@
 <template>
   <div class="playlists">
-    <h1><b-img :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>  {{playlist.name}}</h1>
+    <h1>
+    <b-img v-if="playlist.images[0] != null" :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>
+    <b-img v-if="playlist.images[0] == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>    
+    {{playlist.name}}</h1>
     <br/>
     <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: id } }">Add Albums</b-button>
     <br/>
@@ -34,7 +37,6 @@ export default {
         // JSON responses are automatically parsed.
         this.playlist = response.data
         this.tracks = this.playlist.tracks
-        console.log(this.tracks)
       })
       .catch(e => {
         this.errors.push(e)
