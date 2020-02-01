@@ -134,7 +134,7 @@ def remove_by_keyword(request):
     """Remove all tracks from a playlist whose name contains the provided target word."""
 
     def word_in_track_name(word, track_name):
-        return word in track_name
+        return word.lower() in track_name.lower()
 
     user_id, _, sp = get_auth(request)
 
