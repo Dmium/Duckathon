@@ -6,11 +6,12 @@ from . import views
 urlpatterns = [
     path('test', views.test_page, name='test_page'),
 
-    path('add_to_playlists', views.add_to_playlists, name='add_to_playlists'),
     path('callback', views.callback, name='callback'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
+
     path('playlists', views.playlists, name='playlists'),
+    path('playlists/add', views.add_to_playlists, name='playlists_add'),
     path('playlists/<id>', views.playlist, name='playlist'),
-    path('playlists_merge', views.playlists_merge, name='playlists_merge'),
+    path('playlists/merge', views.merge_playlists, name='playlists_merge'),
 ]
