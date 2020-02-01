@@ -1,20 +1,21 @@
 <template>
   <div class="playlists">
-    <h1>{{playlist.name}}</h1>
+    <h1><b-img :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>  {{playlist.name}}</h1>
     <ul class="playlist-container">
-        <!--<PlaylistPreview class="playlist" :title="this.playlist.name" :description="this.playlist.description" :image="this.playlist.images[0].url" :id="this.playlist.id"/>!-->
-        
+        <div v-for="track in tracks.items" :key="track.id">
+            <TrackPreview class="playlist" :title="track.track.name" :artists="track.track.artists" :image="track.track.album.images[0].url" :id="track.track.id"/>
+        </div>
     </ul>
   </div>
 </template>
 
 <script>
-// import PlaylistPreview from '../components/PlaylistPreview.vue';
+import TrackPreview from '../components/TrackPreview.vue';
 
 export default {
   name: 'playlist',
   components: {
-    //   PlaylistPreview
+      TrackPreview
   },
   data() {
     return {
@@ -25,10 +26,12 @@ export default {
   },
   created() {
     this.id = this.$route.params.id
-    this.$http.get('playlists/' + this.id)
+    this.$http.get('playlist/' + this.id)
       .then(response => {
         // JSON responses are automatically parsed.
         this.playlist = response.data
+        this.tracks = this.playlist.tracks
+        console.log(this.tracks)
       })
       .catch(e => {
         this.errors.push(e)
