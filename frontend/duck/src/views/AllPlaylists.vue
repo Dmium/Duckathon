@@ -7,10 +7,10 @@
       </router-link>
     </div>
     <div class="search">
-      <vue-bootstrap-typeahead placeholder="Search for a playlist..." size="lg" v-model="selected" :data="playlists" :serializer="p => p.name" @hit="selected = $event"/>
+      <vue-bootstrap-typeahead placeholder="Search for a playlist..." size="lg" v-model="selected" :data="filteredPlaylists" :serializer="p => p.name" :minMatchingChars="1" @hit="goToPlaylist($event)"/>
     </div>
     <ul class="playlist-container">
-        <div v-for="playlist in playlists" :key="playlist.id">
+        <div v-for="playlist in filteredPlaylists" :key="playlist.id">
             <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
         </div>
     </ul>
@@ -27,21 +27,25 @@ export default {
   },
   data() {
     return {
-      playlists: [],
-      selected: '',
+      allPlaylists: [],
+      filteredPlaylists: [],
     }
   },
   mounted() {
 
     this.$http.get('playlists')
       .then(response => {
-        // JSON responses are automatically parsed.
-        this.playlists = response.data.items
-        console.log(this.playlists[0]['images'][2]['url'])
+        this.allPlaylists = response.data.items
+        this.filteredPlaylists = response.data.items
       })
       .catch(e => {
         this.errors.push(e)
       })
+  },
+  methods: {
+    goToPlaylist(selected) {
+      this.$router.push({ name: 'playlist', params: {id: selected.id } });
+    }
   }
 }
 </script>
