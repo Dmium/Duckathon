@@ -5,7 +5,7 @@
       <div class="landing-text">
         <h1 id="header-text">Take control of your music</h1>
         <p id="secondary-text">Create playlists intelligently with Duckify</p>
-        <b-button size="lg" variant="primary" to="/login">Log in to Spotify</b-button>
+        <b-button size="lg" variant="primary" href="http://localhost:8000/login">Log in to Spotify</b-button>
       </div>
     </div>
   </div>
