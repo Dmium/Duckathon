@@ -68,6 +68,11 @@ def add_to_playlists(request):
     return JsonResponse({'success': True})
 
 
+def playlist(request, id):
+    _, _, sp = get_auth(request)
+
+    return JsonResponse(sp.playlist_tracks(id, fields=None, limit=100))
+
 
 def playlists(request):
     _, _, sp = get_auth(request)

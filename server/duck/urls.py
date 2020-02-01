@@ -11,5 +11,6 @@ urlpatterns = [
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
     path('playlists', views.playlists, name='playlists'),
+    path('playlists/<id>', views.playlist, name='playlist'),
     path('playlists_merge', views.playlists_merge, name='playlists_merge'),
 ]
