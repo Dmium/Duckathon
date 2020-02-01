@@ -1,7 +1,7 @@
 <template>
   <div>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="#">Duckify</b-navbar-brand>
+    <b-navbar-brand>Duckify for <a href="https://www.spotify.com/"><img id="spotify-logo" src="../assets/spotify-logo.png"/></a></b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -41,3 +41,10 @@ export default {
   name: 'navbar'
 }
 </script>
+
+<style>
+
+#spotify-logo {
+  width: 30px;
+}
+</style>
