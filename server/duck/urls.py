@@ -4,12 +4,12 @@ from . import views
 
 
 urlpatterns = [
-    path('test', views.test_page, name='test_page'),
-
+    # AUTH ENDPOINTS
     path('callback', views.callback, name='callback'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
 
+    # OTHER ENDPOINTS
     path('playlist/<id>', views.playlist, name='playlist'),
     path('playlists', views.playlists, name='playlists'),
     path('playlists/add', views.add_to_playlists, name='playlists_add'),
