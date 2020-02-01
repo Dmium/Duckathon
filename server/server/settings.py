@@ -126,5 +126,6 @@ SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
        'http://localhost:8080',
+       'http://localhost:8081',
 )
 CORS_ALLOW_CREDENTIALS = True
