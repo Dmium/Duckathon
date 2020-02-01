@@ -3,7 +3,7 @@
     <h1>Your Playlists</h1>
     <ul class="playlist-container">
         <div v-for="playlist in playlists" :key="playlist.id">
-            <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url"/>
+            <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
         </div>
     </ul>
   </div>
@@ -24,7 +24,7 @@ export default {
   },
   created() {
 
-    this.$http.get('playlists', {withCredentials: true})
+    this.$http.get('playlists')
       .then(response => {
         // JSON responses are automatically parsed.
         this.playlists = response.data.items
