@@ -8,7 +8,10 @@ from spotipy import oauth2
 
 # Create your views here.
 def test_page(request):
-    return render(request, 'duck/example.html')
+    response = render(request, "duck/example.html")
+    response['Access-Control-Allow-Credentials'] = 'true'
+    return response
+    # return render(request, 'duck/example.html')
 
 
 def callback(request):
