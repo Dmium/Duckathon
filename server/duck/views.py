@@ -1,5 +1,3 @@
-from . import keys
-
 import os
 import spotipy
 
@@ -17,7 +15,7 @@ def callback(request):
     # redirects here after Spotify login
     token = 'http://localhost:8000/callback/?{}'.format(request.GET.urlencode())
 
-    sp_oauth = oauth2.SpotifyOAuth(keys.SPOTIFY_CLIENT_ID, keys.SPOTIFY_CLIENT_SECRET, keys.SPOTIFY_REDIRECT_URI, scope=keys.SCOPE)
+    sp_oauth = oauth2.SpotifyOAuth(os.getenv('SPOTIPY_CLIENT_ID'), os.getenv('SPOTIPY_CLIENT_SECRET'), os.getenv('SPOTIPY_REDIRECT_URI'), scope=os.getenv('SPOTIPY_SCOPE'))
 
     code = sp_oauth.parse_response_code(token)
     token_info = sp_oauth.get_access_token(code)
@@ -30,7 +28,7 @@ def callback(request):
 
 
 def login(request):
-    sp_oauth = oauth2.SpotifyOAuth(keys.SPOTIFY_CLIENT_ID, keys.SPOTIFY_CLIENT_SECRET, keys.SPOTIFY_REDIRECT_URI, scope=keys.SCOPE)
+    sp_oauth = oauth2.SpotifyOAuth(os.getenv('SPOTIPY_CLIENT_ID'), os.getenv('SPOTIPY_CLIENT_SECRET'), os.getenv('SPOTIPY_REDIRECT_URI'), scope=os.getenv('SPOTIPY_SCOPE'))
 
     if 'spotify_token' not in request.session:
         # if not logged in
