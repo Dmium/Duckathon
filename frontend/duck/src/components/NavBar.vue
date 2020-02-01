@@ -7,8 +7,9 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item to="/">Get Started</b-nav-item>
+        <b-nav-item to="/">Connect to Spotify</b-nav-item>
         <b-nav-item to="/playlists">Playlists</b-nav-item>
+        <b-nav-item to="/tools">Playlist Tools</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->

@@ -6,6 +6,9 @@
         <b-button size="lg" variant="primary">New Playlist</b-button>
       </router-link>
     </div>
+    <div class="search">
+      <vue-bootstrap-typeahead placeholder="Search for a playlist..." size="lg" v-model="selected" :data="playlists" :serializer="p => p.name" @hit="selected = $event"/>
+    </div>
     <ul class="playlist-container">
         <div v-for="playlist in playlists" :key="playlist.id">
             <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
@@ -25,6 +28,7 @@ export default {
   data() {
     return {
       playlists: [],
+      selected: '',
     }
   },
   mounted() {
@@ -57,5 +61,11 @@ export default {
 .new {
   text-align: right;
   margin-right: 5%;
+}
+
+.search {
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 5%;
 }
 </style>
