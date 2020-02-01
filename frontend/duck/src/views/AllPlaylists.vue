@@ -27,7 +27,7 @@ export default {
       playlists: [],
     }
   },
-  created() {
+  mounted() {
 
     this.$http.get('playlists')
       .then(response => {
