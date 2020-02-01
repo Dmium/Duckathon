@@ -1,10 +1,8 @@
 <template>
   <div class="playlists">
-    <h1>Your Playlists</h1>
+    <h1>{{playlist.name}}</h1>
     <ul class="playlist-container">
-        <div v-for="playlist in playlists" :key="playlist.id">
-            <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
-        </div>
+        <PlaylistPreview class="playlist" :title="this.playlist.name" :description="this.playlist.description" :image="this.playlist.images[0].url" :id="this.playlist.id"/>
     </ul>
   </div>
 </template>
@@ -13,22 +11,22 @@
 import PlaylistPreview from '../components/PlaylistPreview.vue';
 
 export default {
-  name: 'playlists',
+  name: 'playlist',
   components: {
       PlaylistPreview
   },
   data() {
     return {
-      playlists: [],
+      playlist: {},
+      id: ""
     }
   },
   created() {
-
-    this.$http.get('playlists')
+    this.id = this.$route.params.id
+    this.$http.get('playlists/' + this.id)
       .then(response => {
         // JSON responses are automatically parsed.
-        this.playlists = response.data.items
-        console.log(this.playlists[0]['images'][2]['url'])
+        this.playlist = response.data
       })
       .catch(e => {
         this.errors.push(e)
