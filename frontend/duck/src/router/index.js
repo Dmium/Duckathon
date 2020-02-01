@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import AllPlaylists from '../views/AllPlaylists.vue'
 import Playlist from '../views/Playlist.vue'
 import NewPlaylist from '../views/NewPlaylist.vue'
+import SamplePosta from '../views/SamplePosta.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [{
         path: '/playlists/new',
         name: 'newplaylist',
         component: NewPlaylist
+    },
+    {
+        path: '/sampleposta',
+        name: 'sampleposta',
+        component: SamplePosta
     }
 ]
 
