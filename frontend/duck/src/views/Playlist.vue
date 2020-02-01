@@ -3,18 +3,20 @@
     <h1>{{playlist.name}}</h1>
     <ul class="playlist-container">
         <!--<PlaylistPreview class="playlist" :title="this.playlist.name" :description="this.playlist.description" :image="this.playlist.images[0].url" :id="this.playlist.id"/>!-->
-        
+        <div v-for="track in playlist.items" :key="track.id">
+            <PlaylistPreview class="playlist" :title="track.track.name" :description="track.track.artists[0].name" :image="track.track.album.images[0].url" :id="track.track.id"/>
+        </div>
     </ul>
   </div>
 </template>
 
 <script>
-// import PlaylistPreview from '../components/PlaylistPreview.vue';
+import PlaylistPreview from '../components/PlaylistPreview.vue';
 
 export default {
   name: 'playlist',
   components: {
-    //   PlaylistPreview
+      PlaylistPreview
   },
   data() {
     return {
