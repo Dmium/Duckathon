@@ -1,6 +1,11 @@
 <template>
   <div class="playlists">
     <h1>Your Playlists</h1>
+    <div class="new">
+      <router-link :to="{ name: 'newplaylist'}">
+        <b-button size="lg" variant="primary">New Playlist</b-button>
+      </router-link>
+    </div>
     <ul class="playlist-container">
         <div v-for="playlist in playlists" :key="playlist.id">
             <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
@@ -22,7 +27,7 @@ export default {
       playlists: [],
     }
   },
-  created() {
+  mounted() {
 
     this.$http.get('playlists')
       .then(response => {
@@ -47,5 +52,10 @@ export default {
 
 .playlist {
     margin: 1rem 0 1rem 0;
+}
+
+.new {
+  text-align: right;
+  margin-right: 5%;
 }
 </style>
