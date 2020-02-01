@@ -32,7 +32,17 @@ def login(request):
 
     if 'spotify_token' not in request.session:
         # if not logged in
-        auth_url = sp_oauth.get_authorize_url()
+        auth_url = sp_oauth.get_authorize_url(show_dialog=True)
         return HttpResponseRedirect(auth_url)
 
     return HttpResponse("Already logged in.")
+
+
+def logout(request):
+    # logs a user out of the app, not Spotify on browser
+    response = HttpResponseRedirect('test')
+    request.session.flush()
+
+    return response
+ 
+
