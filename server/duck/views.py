@@ -1,24 +1,14 @@
 import os
-import spotipy
+
+from .spotipy_auth import get_auth
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, HttpResponseRedirect
-from spotipy import oauth2, util
+from spotipy import oauth2, Spotify
 
 
-def refresh_token(request):
-    sp_oauth = oauth2.SpotifyOAuth(os.getenv('SPOTIPY_CLIENT_ID'), os.getenv('SPOTIPY_CLIENT_SECRET'), os.getenv('SPOTIPY_REDIRECT_URI'), scope=os.getenv('SPOTIPY_SCOPE'))
 
-    # store the refreshed token
-    request.session['spotipy_token'] = sp_oauth.refresh_access_token(request.session['spotipy_token']['refresh_token'])
-
-    return request.session['spotipy_token']['access_token']
-
-
-# Create your views here.
-def test_page(request):
-    return render(request, 'duck/example.html')
-
+# AUTH VIEWS
 
 def callback(request):
     # redirects here after Spotify login
@@ -34,7 +24,7 @@ def callback(request):
         request.session['spotipy_token'] = token_info
         print(request.session['spotipy_token'])
 
-        sp = spotipy.Spotify(auth= request.session['spotipy_token']['access_token'])
+        sp = Spotify(auth= request.session['spotipy_token']['access_token'])
         request.session['user_id'] = sp.current_user()['id']
 
     return JsonResponse(request.session['spotipy_token'])
@@ -53,17 +43,31 @@ def login(request):
 
 def logout(request):
     # logs a user out of the app, not Spotify on browser
-    response = HttpResponseRedirect('test')
+    response = HttpResponseRedirect('login')
     request.session.flush()
 
     return response
 
 
-def playlists(request):
-    token = refresh_token(request)
+# OTHER VIEWS
 
-    sp = spotipy.Spotify(auth=token)
-    sp.trace = False
+def add_to_all_playlists(request):
+    # doesn't check for duplicates
+
+    user_id, _, sp = get_auth(request)
+
+    track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
+
+    for playlist in sp.user_playlists(user_id)['items']:
+        if playlist['owner']['id'] == user_id:
+            sp.user_playlist_add_tracks(user_id, playlist['id'], track_ids)
+
+    return JsonResponse({'success': True})
+
+
+
+def playlists(request):
+    _, _, sp = get_auth(request)
     results = sp.current_user_playlists(limit=50)
 
     # return JsonResponse(results['items'])
@@ -81,10 +85,7 @@ def playlists_merge(request):
     new_playlist_name = "Duck Test Playlist"
 
     # Set up the spotipy stuff
-    token = refresh_token(request)
-    user_id = request.session['user_id']
-    sp = spotipy.Spotify(auth=token)
-    sp.trace = False
+    user_id, _, sp = get_auth(request)
 
     # Get the songs from each of the playlists
     track_ids = []
@@ -118,3 +119,5 @@ def playlists_merge(request):
     return JsonResponse({'success': True})
 
 
+def test_page(request):
+    return render(request, 'duck/example.html')

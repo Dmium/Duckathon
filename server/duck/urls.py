@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('test', views.test_page, name='test_page'),
 
+    path('add_to_all_playlists', views.add_to_all_playlists, name='add_to_all_playlists'),
     path('callback', views.callback, name='callback'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
