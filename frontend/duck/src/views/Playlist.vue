@@ -1,28 +1,37 @@
 <template>
-  <div class="playlists">
+  <div class="playlist-songs">
     <h1>
     <b-img v-if="playlist.images[0] != null" :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>
     <b-img v-if="playlist.images[0] == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>    
     {{playlist.name}}</h1>
     <br/>
     <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: id } }">Add Albums</b-button>
-    <br/>
-    <ul class="playlist-container">
-        <div v-for="track in tracks.items" :key="track.id">
-            <TrackPreview class="playlist" :title="track.track.name" :artists="track.track.artists" :image="track.track.album.images[0].url" :id="track.track.id"/>
-        </div>
-    </ul>
+    <div class="playlist-table">
+      <b-table-simple hover small caption-top responsive sticky-header borderless>
+        <b-thead head-variant="dark">
+          <b-tr>
+            <b-th colspan="2">Song</b-th>
+            <b-th>Artist</b-th>
+            <b-th>Album</b-th>
+          </b-tr>
+        </b-thead>
+        <b-tbody>
+          <b-tr v-for="track in tracks.items" v-bind:key="track.id">
+            <b-td><img class="album-icon" :src="track.track.album.images[0].url"/></b-td>
+            <b-th>{{ track.track.name }}</b-th>
+            <b-td>{{ formatArtists(track.track.artists)}}</b-td>
+            <b-td>{{ track.track.album.name }}</b-td>
+          </b-tr>
+        </b-tbody>
+      </b-table-simple>
+    </div>
   </div>
 </template>
 
 <script>
-import TrackPreview from '../components/TrackPreview.vue';
 
 export default {
   name: 'playlist',
-  components: {
-      TrackPreview
-  },
   data() {
     return {
       playlist: {},
@@ -41,19 +50,36 @@ export default {
       .catch(e => {
         this.errors.push(e)
       })
+  },
+  methods: {
+    formatArtists(artists) {
+      if(artists.length === 1) return artists[0].name;
+      var response = '';
+      artists.forEach(artist => response += artist.name + ", ");
+      return response;
+    }
   }
 }
 </script>
 
 <style>
-.playlist-container {
-    width: 40%;
-    margin-left: 30%;
+.playlist-table {
+    width: 90%;
+    margin-left: 5%;
     margin-top: 5%;
     text-align: left;
+    height: 60vh;
 }
 
 .playlist {
     margin: 1rem 0 1rem 0;
+}
+
+.album-icon {
+  width: 15%;
+}
+
+.playlist-songs {
+  height: 100vh;
 }
 </style>

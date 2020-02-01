@@ -6,7 +6,7 @@
 
         <h5 class="mt-0">{{ this.title }}</h5>
         <div v-for="artist in artists"  :key="artist.id">
-            {{ artist.name }}, 
+            {{ artist.name }}
         </div>
     </b-media>
 </template>

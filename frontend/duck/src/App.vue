@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar/>
-    <div>
+    <div id="content">
       <router-view/>
     </div>
   </div>
@@ -29,5 +29,10 @@ export default {
   background-color: #191414;
   height: 100%;
   min-height: 100vh;
+}
+
+#content {
+  height: 100%;
+  min-height: 95vh
 }
 </style>
