@@ -1,6 +1,7 @@
 <template>
   <div>
-    <p>{{id}}</p>
+    <p>{{this.id}}</p>
+    
   </div>
 </template>
 
@@ -20,6 +21,7 @@ export default {
     }
   },
   created() {
+    this.id = this.$route.params.id
   }
 }
 </script>
