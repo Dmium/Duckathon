@@ -10,6 +10,7 @@ Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 Vue.prototype.$http = Axios.create({
     withCredentials: true,
+    baseURL: 'http://localhost:8000/',
 })
 new Vue({
     router,
