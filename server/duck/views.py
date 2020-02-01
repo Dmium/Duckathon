@@ -51,14 +51,17 @@ def logout(request):
 
 # OTHER VIEWS
 
-def add_to_all_playlists(request):
-    # doesn't check for duplicates
+def add_to_playlists(request):
+    # Adds any number of tracks to all/ specified playlists, doesn't check for duplicates
+    playlists = None  # HARDCODED
+    track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
 
     user_id, _, sp = get_auth(request)
 
-    track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
+    if playlists is None:
+        playlists = sp.user_playlists(user_id)['items']
 
-    for playlist in sp.user_playlists(user_id)['items']:
+    for playlist in playlists:
         if playlist['owner']['id'] == user_id:
             sp.user_playlist_add_tracks(user_id, playlist['id'], track_ids)
 
