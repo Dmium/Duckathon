@@ -1,8 +1,11 @@
+# SPOTIPY KEY FILE
+keys.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+*keys.py
 # C extensions
 *.so
 
