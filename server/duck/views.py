@@ -70,9 +70,9 @@ def add_to_playlists(request):
 
 
 def playlist(request, id):
-    _, _, sp = get_auth(request)
+    user_id, _, sp = get_auth(request)
 
-    return JsonResponse(sp.playlist_tracks(id, fields=None, limit=100))
+    return JsonResponse(sp.user_playlist(user_id, id, fields=None))
 
 
 def playlists(request):
