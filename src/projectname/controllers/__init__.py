@@ -1,0 +1,1 @@
+from projectname import app
