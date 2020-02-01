@@ -1,4 +1,5 @@
 import os
+import json
 
 from .spotipy_auth import get_auth
 
@@ -86,7 +87,7 @@ def add_albums_to_playlist(request):
 
 
 def add_to_playlists(request):
-    # Adds any number of tracks to all/ specified playlists, doesn't check for duplicates
+    """Adds any number of tracks to all/ specified playlists, doesn't check for duplicates."""
 
     playlists = None  # HARDCODED
     track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
@@ -146,13 +147,33 @@ def artist_search(request):
         return JsonResponse({'success': False})
 
 
-def playlist(request, id):
-    _, _, sp = get_auth(request)
+def create_playlist(request):
+    """Create a new playlist. Needs a title and optionally a description, collaborative boolean, public boolean, and image."""
+    user_id, _, sp = get_auth(request)
 
-    return JsonResponse(sp.playlist_tracks(id, fields=None, limit=100))
+    data = json.load(request)
+
+    # create playlist with name and description
+    playlist = sp.user_playlist_create(user_id, data["name"], description="")
+
+    # set public and collaborative
+    # sp.user_playlist_change_details(user_id, playlist['id'], public=False, collaborative=True)
+
+    # add image
+    # sp.playlist_upload_cover_image(playlist['id'], "image_b64")
+
+    return JsonResponse(playlist)
+
+
+def playlist(request, id):
+    """Returns playlist details and details for its tracks."""
+    user_id, _, sp = get_auth(request)
+
+    return JsonResponse(sp.user_playlist(user_id, id, fields=None))
 
 
 def playlists(request):
+    """Returns all of a user's playlists."""
     _, _, sp = get_auth(request)
     results = sp.current_user_playlists(limit=50)
 
@@ -245,7 +266,3 @@ def remove_by_keyword(request):
         user_id, playlist_id, track_ids)
 
     return JsonResponse({'success': True})
-
-
-def test_page(request):
-    return render(request, 'duck/example.html')
