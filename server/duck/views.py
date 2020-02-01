@@ -52,6 +52,40 @@ def logout(request):
 
 # OTHER VIEWS
 
+def add_albums_to_playlist(request):
+    """Add all tracks from the provided albums to a specified playlist."""
+
+    # Fake input
+    playlist_id = "6JW6em51gITQVoMZpcjVHL"
+    album_ids = ["6P9CHi6Dx26YWHeE3aTZiz", "7gTFf2EWBONpjKVjpWbs5p"]
+
+    user_id, _, sp = get_auth(request)
+
+    # For each album ID, get the track IDs and store them
+    track_ids = []
+    for album_id in album_ids:
+        more_tracks = True
+        offset = 0
+        while more_tracks:
+            # Get the next 50 tracks
+            result = sp.album_tracks(album_id, offset=offset, limit=50)
+            for item in result['items']:
+                track_id = item['id']
+                track_ids.append(track_id)
+            # Update more_tracks and the offset
+            more_tracks = result['next'] != None
+            offset += 50
+
+    # Add the tracks to the specified playlist
+    offset = 0
+    length = len(track_ids)
+    while offset < length:
+        sp.user_playlist_add_tracks(user_id, playlist_id, track_ids[offset:(offset+100)], position=offset)
+        offset += 100
+
+    return JsonResponse({'success': True})
+
+
 def add_to_playlists(request):
     """Adds any number of tracks to all/ specified playlists, doesn't check for duplicates."""
 
@@ -68,6 +102,49 @@ def add_to_playlists(request):
             sp.user_playlist_add_tracks(user_id, playlist['id'], track_ids)
 
     return JsonResponse({'success': True})
+
+
+def artist_albums(request):
+    """Return all of an artist's albums, sorted by album type."""
+
+    _, _, sp = get_auth(request)
+
+    # Get input from frontend
+    # artist_id = ?
+
+    # Fake input
+    artist_id = "07QEuhtrNmmZ0zEcqE9SF6"
+
+    result_a = sp.artist_albums(artist_id, album_type="album", country="GB", limit=50)
+    result_b = sp.artist_albums(artist_id, album_type="single", country="GB", limit=50)
+    result_c = sp.artist_albums(artist_id, album_type="appears_on", country="GB", limit=50)
+    result_d = sp.artist_albums(artist_id, album_type="compilation", country="GB", limit=50)
+
+    result = {
+        "albums": result_a['items'],
+        "singles": result_b['items'],
+        "appears_ons": result_c['items'],
+        "compilations": result_d['items'],
+    }
+
+    return JsonResponse(result)
+
+
+def artist_search(request):
+    """Return the top 5 (or less) search results for an artist."""
+
+    # Fake input
+    artist_name = "Carly Rae"
+
+    _, _, sp = get_auth(request)
+
+    results = sp.search(q='artist:' + artist_name, type='artist')
+    items = results['artists']['items']
+    if len(items) > 0:
+        artists = items[:5]
+        return JsonResponse({'success': True, 'results': artists})
+    else:
+        return JsonResponse({'success': False})
 
 
 def create_playlist(request):
@@ -105,6 +182,8 @@ def playlists(request):
 
 
 def merge_playlists(request):
+    """Create a new playlist by merging the contents of multiple playlists."""
+
     # Recover the data from the sent JSON, change as needed to work with UI
     # data = request.body
     # playlist_ids = data['playlist_ids']
@@ -145,5 +224,45 @@ def merge_playlists(request):
         offset += 100
 
     # result = sp.user_playlist_add_tracks(user_id, new_playlist_id, track_ids[:100], position=offset)
+
+    return JsonResponse({'success': True})
+
+
+def remove_by_keyword(request):
+    """Remove all tracks from a playlist whose name contains the provided target word."""
+
+    def word_in_track_name(word, track_name):
+        return word.lower() in track_name.lower()
+
+    user_id, _, sp = get_auth(request)
+
+    # Get input from frontend
+    # target_word = ?
+    # playlist_id = ?
+
+    # Fake input - REMOVE WHEN FRONTEND IS LINKED
+    target_word = "Version"
+    playlist_id = "6JW6em51gITQVoMZpcjVHL"
+
+    # Get the playlist track info and store IDs of songs matching criteria
+    track_ids = []
+    more_tracks = True
+    offset = 0
+    while more_tracks:
+        # Get the next 100 tracks
+        result = sp.user_playlist_tracks(
+            user_id, playlist_id, offset=offset, limit=100)
+        for item in result['items']:
+            track_name = item['track']['name']
+            if word_in_track_name(target_word, track_name):
+               track_id = item['track']['id']
+               track_ids.append(track_id)
+        # Update more_tracks and the offset
+        more_tracks = result['next'] != None
+        offset += 100
+
+    # Remove all occurrences of tracks with cursed IDs
+    sp.user_playlist_remove_all_occurrences_of_tracks(
+        user_id, playlist_id, track_ids)
 
     return JsonResponse({'success': True})
