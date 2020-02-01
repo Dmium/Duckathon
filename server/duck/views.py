@@ -64,10 +64,19 @@ def playlists_merge(request):
     # Get the songs from each of the playlists
     track_ids = []
     for playlist_id in playlist_ids:
-        results = sp.playlist_tracks(playlist_id, limit=100)
-        for item in results['items']:
-            track_id = item['track']['id']
-            track_ids.append(track_id)
+        more_tracks = True
+        offset = 0
+        while more_tracks:
+            # Get the next 100 tracks
+            result = sp.playlist_tracks(playlist_id, offset=offset, limit=100)
+            for item in result['items']:
+                track_id = item['track']['id']
+                track_ids.append(track_id)
+            # Update more_tracks and the offset
+            more_tracks = result['next'] != None
+            offset += 100
+
+    return JsonResponse({'len': len(track_ids)})
 
     # Get the user id - could do earlier and store in session
     result = sp.current_user()
@@ -78,6 +87,14 @@ def playlists_merge(request):
     new_playlist_id = result['id']
 
     # Add the list of songs to the new playlist
-    result = sp.user_playlist_add_tracks(user_id, new_playlist_id, track_ids[:100])
+    
+    offset = 0
+    length = len(track_ids)
+    while offset < length:
+        sp.user_playlist_add_tracks(
+            user_id, new_playlist_id, track_ids[offset:(offset+100)], position=offset)
+        offset += 100
 
-    return JsonResponse(result)
+    # result = sp.user_playlist_add_tracks(user_id, new_playlist_id, track_ids[:100], position=offset)
+
+    return JsonResponse({'success': True})
