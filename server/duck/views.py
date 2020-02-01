@@ -1,4 +1,5 @@
 import os
+import json
 
 from .spotipy_auth import get_auth
 
@@ -73,17 +74,16 @@ def create_playlist(request):
     """Create a new playlist. Needs a title and optionally a description, collaborative boolean, public boolean, and image."""
     user_id, _, sp = get_auth(request)
 
-    # create playlist with name and description
-    playlist = sp.user_playlist_create(user_id, "TEMP2", description="test description")
+    data = json.load(request)
 
-    print(playlist['href'])
+    # create playlist with name and description
+    playlist = sp.user_playlist_create(user_id, data["name"], description="")
 
     # set public and collaborative
-    playlist = sp.user_playlist_change_details(user_id, playlist['href']['id'], public=True, collaborative=False)
+    # sp.user_playlist_change_details(user_id, playlist['id'], public=False, collaborative=True)
 
     # add image
-    # sp.playlist_upload_cover_image(playlist_id, image_b64)
-
+    # sp.playlist_upload_cover_image(playlist['id'], "image_b64")
 
     return JsonResponse(playlist)
 
