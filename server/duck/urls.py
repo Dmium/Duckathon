@@ -14,4 +14,5 @@ urlpatterns = [
     path('playlists/add', views.add_to_playlists, name='playlists_add'),
     path('playlists/<id>', views.playlist, name='playlist'),
     path('playlists/merge', views.merge_playlists, name='playlists_merge'),
+    path('playlists/remove_by_keyword', views.remove_by_keyword, name='playlists_remove_keyword'),
 ]

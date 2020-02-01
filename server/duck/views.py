@@ -84,6 +84,8 @@ def playlists(request):
 
 
 def merge_playlists(request):
+    """Create a new playlist by merging the contents of multiple playlists."""
+
     # Recover the data from the sent JSON, change as needed to work with UI
     # data = request.body
     # playlist_ids = data['playlist_ids']
@@ -124,6 +126,46 @@ def merge_playlists(request):
         offset += 100
 
     # result = sp.user_playlist_add_tracks(user_id, new_playlist_id, track_ids[:100], position=offset)
+
+    return JsonResponse({'success': True})
+
+
+def remove_by_keyword(request):
+    """Remove all tracks from a playlist whose name contains the provided target word."""
+
+    def word_in_track_name(word, track_name):
+        return word in track_name
+
+    user_id, _, sp = get_auth(request)
+
+    # Get input from frontend
+    # target_word = ?
+    # playlist_id = ?
+
+    # Fake input - REMOVE WHEN FRONTEND IS LINKED
+    target_word = "Version"
+    playlist_id = "6JW6em51gITQVoMZpcjVHL"
+
+    # Get the playlist track info and store IDs of songs matching criteria
+    track_ids = []
+    more_tracks = True
+    offset = 0
+    while more_tracks:
+        # Get the next 100 tracks
+        result = sp.user_playlist_tracks(
+            user_id, playlist_id, offset=offset, limit=100)
+        for item in result['items']:
+            track_name = item['track']['name']
+            if word_in_track_name(target_word, track_name):
+               track_id = item['track']['id']
+               track_ids.append(track_id)
+        # Update more_tracks and the offset
+        more_tracks = result['next'] != None
+        offset += 100
+
+    # Remove all occurrences of tracks with cursed IDs
+    sp.user_playlist_remove_all_occurrences_of_tracks(
+        user_id, playlist_id, track_ids)
 
     return JsonResponse({'success': True})
 
