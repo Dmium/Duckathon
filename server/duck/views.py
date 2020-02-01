@@ -69,6 +69,15 @@ def add_to_playlists(request):
     return JsonResponse({'success': True})
 
 
+def create_playlist(request):
+    """Create a new playlist. Needs a title and optionally a description, collaborative boolean, public boolean, and image."""
+    user_id, _, sp = get_auth(request)
+
+    playlist = sp.user_playlist_create(user_id, "TEMP2", public=False, description="test description")
+
+    return JsonResponse(playlist)
+
+
 def playlist(request, id):
     """Returns playlist details and details for its tracks."""
     user_id, _, sp = get_auth(request)
