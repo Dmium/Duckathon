@@ -11,7 +11,7 @@
     </div>
     <ul class="playlist-container">
         <div v-for="playlist in filteredPlaylists" :key="playlist.id">
-            <PlaylistPreview class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
+            <PlaylistPreview v-if="playlist.images[0] != null" class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
             <PlaylistPreview v-if="playlist.images[0] == null" class="playlist" :title="playlist.name" :description="playlist.description" image="https://image.flaticon.com/icons/svg/2284/2284983.svg" :id="playlist.id"/>
         </div>
     </ul>

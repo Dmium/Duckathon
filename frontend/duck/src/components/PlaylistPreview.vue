@@ -17,7 +17,7 @@
 export default {
   name: 'playlist-preview',
   props: {
-      id: Number,
+      id: String,
       title: String,
       description: String,
       image: String
