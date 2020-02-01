@@ -1,50 +1,44 @@
 <template>
   <div class="playlists">
     <h1>Create Playlist</h1>
-    <b-form-input v-model="this.playlist.name" placeholder="Enter playlist name"></b-form-input>
-    {{this.playlist.name}}
+    <b-form class="new-playlist-form" @submit="onSubmit">
+      <b-form-group>
+        <b-form-input
+          id="new-playlist-input"
+          v-model="playlist.name"
+          required
+          placeholder="Enter new playlist name"
+          size="lg"
+        ></b-form-input>
+      </b-form-group>
+
+      <b-button type="submit" variant="primary" size="lg">Submit</b-button>
+    </b-form>
   </div>
 </template>
 
 <script>
-// import PlaylistPreview from '../components/PlaylistPreview.vue';
-
 export default {
   name: 'newplaylist',
-  components: {
-    //   PlaylistPreview
-  },
   data() {
     return {
       playlist: {
-          "name": "asd"
+          name: null,
       },
     }
   },
-  created() {
-
-    // this.$http.get('playlists')
-    //   .then(response => {
-    //     // JSON responses are automatically parsed.
-    //     this.playlists = response.data.items
-    //     console.log(this.playlists[0]['images'][2]['url'])
-    //   })
-    //   .catch(e => {
-    //     this.errors.push(e)
-    //   })
+  methods: {
+    onSubmit() {
+      // handle making new playlist
+    }
   }
 }
 </script>
 
 <style>
-.playlist-container {
-    width: 40%;
-    margin-left: 30%;
-    margin-top: 5%;
-    text-align: left;
-}
-
-.playlist {
-    margin: 1rem 0 1rem 0;
+.new-playlist-form {
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 5%;
 }
 </style>
