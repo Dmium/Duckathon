@@ -4,7 +4,7 @@ import json
 from .spotipy_auth import get_auth
 
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from spotipy import oauth2, Spotify
 
 
@@ -27,7 +27,7 @@ def callback(request):
         sp = Spotify(auth= request.session['spotipy_token']['access_token'])
         request.session['user_id'] = sp.current_user()['id']
 
-    return JsonResponse(request.session['spotipy_token'])
+    return redirect("http://localhost:8080/#/playlists")
 
 
 def login(request):
@@ -38,7 +38,7 @@ def login(request):
         auth_url = sp_oauth.get_authorize_url(show_dialog=True)
         return HttpResponseRedirect(auth_url)
 
-    return HttpResponse("Already logged in.")
+    return redirect("http://localhost:8080/#/playlists")
 
 
 def logout(request):
@@ -46,7 +46,7 @@ def logout(request):
     response = HttpResponseRedirect('login')
     request.session.flush()
 
-    return response
+    return redirect("http://localhost:8080/#/")
 
 
 # OTHER VIEWS
