@@ -350,11 +350,12 @@ def title_chain(request, word):
 
     skiplist = set(['dm', 'remix'])
     seen = set()
-
+    word = word.lower().split()[0]
     # create playlist with name and description
-    playlist = sp.user_playlist_create(user_id, word+" Title Chain", description="The first word in each subsequent title matches the last word of the previous title.")
+    playlist = sp.user_playlist_create(user_id, word.capitalize() +" Title Chain", description="The first word in each subsequent title matches the last word of the previous title.")
 
     def find_tracks_that_start_with_word(word):
+        _, _, sp = get_auth(request)
         max_titles = 20
         max_offset = 400
         offset = 0
@@ -398,5 +399,4 @@ def title_chain(request, word):
             break
 
     result = sp.user_playlist_add_tracks(user_id, playlist['id'], track_ids)
-
-    return JsonResponse(result)
+    return HttpResponse("")
