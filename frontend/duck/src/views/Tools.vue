@@ -10,6 +10,9 @@
     <br/>
     <br/>
     <b-button size="lg" variant="primary" :to="{ name: 'reversenuke'}">REVERSE-NUKE</b-button>
+    <br/>
+    <br/>
+    <b-button size="lg" variant="primary" :to="{ name: 'recentsplaylist'}">PLAYLIST OF RECENT TRACKS</b-button>
   </div>
 </template>
 
