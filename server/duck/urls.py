@@ -10,7 +10,7 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
 
     # OTHER ENDPOINTS
-    path('artist/albums', views.artist_albums, name='artist_albums'),
+    path('artist/<id>/albums', views.artist_albums, name='artist_albums'),
     path('artist/search', views.artist_search, name='artist_search'),
 
     path('nuke', views.nuke, name='nuke'),
