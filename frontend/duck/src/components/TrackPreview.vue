@@ -9,6 +9,7 @@
             {{ artist.name }}
         </div>
         <b-button v-if="nuke == true" size="lg" variant="primary" v-on:click="nukesong">NUKE</b-button>
+        <b-button v-if="reversenuke == true" size="lg" variant="primary" v-on:click="reversenukesong">REVERSE-NUKE</b-button>
     </b-media>
 </template>
 
@@ -21,11 +22,16 @@ export default {
       title: String,
       artists: Array,
       image: String,
-      nuke: Boolean
+      nuke: Boolean,
+      reversenuke: Boolean,
   },
   methods: {
     nukesong() {
         this.$http.post('nuke', {"id": this.id})
+        this.$router.push({ name: "tools"})
+    },
+    reversenukesong() {
+        this.$http.post('playlists/add', {"id": this.id})
         this.$router.push({ name: "tools"})
     },
   },

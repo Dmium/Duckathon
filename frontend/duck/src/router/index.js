@@ -8,6 +8,7 @@ import SamplePosta from '../views/SamplePosta.vue'
 import PlaylistAddAlbum from '../views/PlaylistAddAlbum.vue'
 import Tools from '../views/Tools.vue'
 import Nuke from '../views/Tools/Nuke.vue'
+import ReverseNuke from '../views/Tools/ReverseNuke.vue'
 
 Vue.use(VueRouter)
 
@@ -59,6 +60,11 @@ const routes = [{
         path: '/tools/nuke',
         name: 'nuke',
         component: Nuke
+    },
+    {
+        path: '/tools/reversenuke',
+        name: 'reversenuke',
+        component: ReverseNuke
     }
 ]
 

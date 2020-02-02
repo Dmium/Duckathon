@@ -86,19 +86,17 @@ def add_albums_to_playlist(request):
 
 
 def add_to_playlists(request):
-    """Adds any number of tracks to all/ specified playlists, doesn't check for duplicates."""
-
-    playlists = None  # HARDCODED
-    track_ids = ["4ItljeeAXtHsnsnnQojaO2", "70gbuMqwNBE2Y5rkQJE9By"]  # HARDCODED
+    """Adds any number of tracks to all playlists, doesn't check for duplicates."""
+    data = json.load(request)
+    track_id = data['id']
 
     user_id, _, sp = get_auth(request)
 
-    if playlists is None:
-        playlists = sp.user_playlists(user_id)['items']
+    playlists = sp.user_playlists(user_id)['items']
 
     for playlist in playlists:
         if playlist['owner']['id'] == user_id:
-            sp.user_playlist_add_tracks(user_id, playlist['id'], track_ids)
+             sp.user_playlist_add_tracks(user_id, playlist['id'], [track_id])
 
     return JsonResponse({'success': True})
 
