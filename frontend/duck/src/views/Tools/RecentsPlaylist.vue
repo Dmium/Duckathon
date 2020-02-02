@@ -36,14 +36,6 @@ export default {
 
 <style>
 
-.playlist-table {
-    width: 90%;
-    margin-left: 5%;
-    margin-top: 5%;
-    text-align: left;
-    height: 60vh;
-}
-
 .playlist {
     margin: 1rem 0 1rem 0;
 }

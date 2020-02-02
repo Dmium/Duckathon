@@ -77,7 +77,7 @@ export default {
     margin-left: 5%;
     margin-top: 5%;
     text-align: left;
-    height: 60vh;
+    padding-bottom: 0;
 }
 
 .playlist {
@@ -86,10 +86,6 @@ export default {
 
 .album-icon {
   width: 15%;
-}
-
-.playlist-songs {
-  height: 100vh;
 }
 
 .back-link {
