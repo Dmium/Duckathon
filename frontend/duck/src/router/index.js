@@ -9,6 +9,7 @@ import PlaylistAddAlbum from '../views/PlaylistAddAlbum.vue'
 import Tools from '../views/Tools.vue'
 import Nuke from '../views/Tools/Nuke.vue'
 import ReverseNuke from '../views/Tools/ReverseNuke.vue'
+import PlaylistRemoveKeyword from '../views/PlaylistRemoveKeyword.vue'
 import Artist from '../views/Artist.vue'
 import RecentsPlaylist from '../views/Tools/RecentsPlaylist.vue'
 
@@ -52,6 +53,11 @@ const routes = [{
         path: '/playlist/:id/add/album',
         name: 'playlistaddalbum',
         component: PlaylistAddAlbum
+    },
+    {
+        path: '/playlist/:id/remove/keyword',
+        name: 'removebykeyword',
+        component: PlaylistRemoveKeyword
     },
     {
         path: '/tools',
