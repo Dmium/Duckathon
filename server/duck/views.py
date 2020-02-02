@@ -54,12 +54,13 @@ def logout(request):
 def add_albums_to_playlist(request):
     """Add all tracks from the provided albums to a specified playlist."""
 
-    # Fake input
-    playlist_id = "6JW6em51gITQVoMZpcjVHL"
-    album_ids = ["6P9CHi6Dx26YWHeE3aTZiz", "7gTFf2EWBONpjKVjpWbs5p"]
+    data = json.load(request)
+    print('test', data['playlist_id'])
+
+    playlist_id = data['playlist_id']
+    album_ids = data['album_ids']
 
     user_id, _, sp = get_auth(request)
-
     # For each album ID, get the track IDs and store them
     track_ids = []
     for album_id in album_ids:
@@ -191,9 +192,6 @@ def create_playlist(request):
 
     # set public and collaborative
     # sp.user_playlist_change_details(user_id, playlist['id'], public=False, collaborative=True)
-
-    # add image
-    # sp.playlist_upload_cover_image(playlist['id'], "image_b64")
 
     return JsonResponse(playlist)
 

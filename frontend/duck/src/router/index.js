@@ -10,6 +10,8 @@ import Tools from '../views/Tools.vue'
 import Nuke from '../views/Tools/Nuke.vue'
 import ReverseNuke from '../views/Tools/ReverseNuke.vue'
 import PlaylistRemoveKeyword from '../views/PlaylistRemoveKeyword.vue'
+import Artist from '../views/Artist.vue'
+import RecentsPlaylist from '../views/Tools/RecentsPlaylist.vue'
 
 Vue.use(VueRouter)
 
@@ -71,6 +73,16 @@ const routes = [{
         path: '/tools/reversenuke',
         name: 'reversenuke',
         component: ReverseNuke
+    },
+    {
+        path: '/addalbum/:playlistid/:artistid',
+        name: 'artist',
+        component: Artist
+    },
+    {
+        path: 'tools/recentsplaylist',
+        name: 'recentsplaylist',
+        component: RecentsPlaylist
     }
 ]
 

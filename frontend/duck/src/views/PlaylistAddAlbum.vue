@@ -1,24 +1,21 @@
 <template>
   <div>
-
+    <div class="back-link">
+      <router-link :to="{ name: 'playlists' }">Back to {{ name }}</router-link>
+    </div>
     <h1>Search for an artist</h1>
     <b-form class="new-playlist-form" @submit="onSubmit">
       <b-form-group>
-        <b-form-input
-          id="new-playlist-input"
-          v-model="artistname"
-          required
-          placeholder="Enter an artist name"
-          size="lg"
-        ></b-form-input>
+        <vue-bootstrap-typeahead size="lg" placeholder="Search for an artist..." :data="allArtists" v-model="artistname" :maxMatches="9"></vue-bootstrap-typeahead>
       </b-form-group>
       <b-button type="submit" variant="primary" size="lg">Submit</b-button>
     </b-form>
-
-    <br/>
-    <br/>
-    <div v-for="artist in allArtists" :key="artist.id">
-        <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :Albums="true" :playlist="this.id"/>
+    <div class="artist-list">
+      <b-row cols="3">
+        <b-col v-for="artist in allArtists" :key="artist.id">
+          <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :albums="true" :playlist="id"/>
+        </b-col>
+      </b-row>
     </div>
 
   </div>
@@ -27,6 +24,7 @@
 <script>
 
 import ArtistPreview from '../components/ArtistPreview.vue';
+import _ from 'underscore'
 
 export default {
   name: 'playlistaddalbum',
@@ -34,7 +32,8 @@ export default {
       ArtistPreview
   },
   props: {
-      id: String
+      id: String,
+      name: String,
   },
   data() {
     return {
@@ -42,11 +41,12 @@ export default {
       artistname: "",
     }
   },
-  methods: {
     mounted() {
+        this.playlistid = this.$route.params.id
     },
-    onSubmit() {
-        this.$http.get('search/artist/' + this.artistname)
+  methods: {
+    async getArtists(query) {
+      this.$http.get('search/artist/' + query)
             .then(response => {
                 this.allArtists = response.data.artists.items
             })
@@ -54,9 +54,19 @@ export default {
                 this.errors.push(e)
             })
     },
-    created() {
-        this.id = this.$route.params.id
+    async onSubmit() {
+      await this.getArtists(); 
     }
   },
+  watch: {
+    artistname: _.debounce(function(artist) { this.getArtists(artist) }, 500)
+  }
 }
 </script>
+
+<style>
+.artist-list {
+  width: 80%;
+  margin-left: 10%;
+}
+</style>
