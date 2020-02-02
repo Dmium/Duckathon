@@ -8,7 +8,7 @@
     <b-img v-if="playlist.images[0] == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>    
     {{playlist.name}}</h1>
     <br/>
-    <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: this.id } }">Add Albums</b-button>
+    <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: playlist.id, name: playlist.name } }">Add Albums</b-button>
     <div class="playlist-table">
       <b-table-simple hover small caption-top responsive sticky-header borderless text-white> 
         <b-thead head-variant="dark">

@@ -1,6 +1,8 @@
 <template>
   <div>
-
+    <div class="back-link">
+      <router-link :to="{ name: 'playlists' }">Back to {{ name }}</router-link>
+    </div>
     <h1>Search for an artist</h1>
     <b-form class="new-playlist-form" @submit="onSubmit">
       <b-form-group>
@@ -11,7 +13,7 @@
     <div class="artist-list">
       <b-row cols="3">
         <b-col v-for="artist in allArtists" :key="artist.id">
-          <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :albums="true" :playlist="playlistid"/>
+          <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :albums="true" :playlist="id"/>
         </b-col>
       </b-row>
     </div>
@@ -30,10 +32,11 @@ export default {
       ArtistPreview
   },
   props: {
+      id: String,
+      name: String,
   },
   data() {
     return {
-      playlistid: "",
       allArtists: [],
       artistname: "",
     }
