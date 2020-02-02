@@ -1,17 +1,10 @@
 <template>
-    <b-media tag="li">
-        <template v-slot:aside>
-            <div>
-                <b-img v-if="image != null" :src="image.url" width="64" alt="placeholder"></b-img>
-                <b-img v-if="image == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>
-            </div>
-            <div>
-                <b-button v-if="Albums == true" size="lg" variant="primary" :to="{ name: 'artist', params: {playlistid: playlist, artistid: id} }">View Albums</b-button>
-            </div>
-        </template>
-
-        <h5 class="mt-0">{{ this.name }}</h5>
-    </b-media>
+  <div class="artist">
+        <img class="album-icon-lg" v-if="image != null" :src="image.url"/>
+        <img v-else src="https://image.flaticon.com/icons/svg/2284/2284983.svg"/>
+        <h5>{{ name }}</h5>
+        <router-link :to="{ name: 'artist', params: {playlistid: playlist, artistid: id} }">View Albums</router-link>
+  </div>
 </template>
 
 <script>
@@ -22,7 +15,7 @@ export default {
       id: String,
       name: String,
       image: Object,
-      Albums: Boolean,
+      albums: Boolean,
       playlist: String,
   },
   data() {
@@ -33,8 +26,12 @@ export default {
       artistname: "",
     }
   },
-  methods: {
-  },
 }
 </script>
+
+<style>
+.album-icon-lg {
+  width: 70%;
+}
+</style>
 

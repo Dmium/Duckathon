@@ -4,12 +4,16 @@
     <h1>Search for an artist</h1>
     <b-form class="new-playlist-form" @submit="onSubmit">
       <b-form-group>
-        <vue-bootstrap-typeahead size="lg" placeholder="Search for an artist..." :data="allArtists" v-model="artistname"></vue-bootstrap-typeahead>
+        <vue-bootstrap-typeahead size="lg" placeholder="Search for an artist..." :data="allArtists" v-model="artistname" :maxMatches="9"></vue-bootstrap-typeahead>
       </b-form-group>
       <b-button type="submit" variant="primary" size="lg">Submit</b-button>
     </b-form>
-    <div v-for="artist in allArtists" :key="artist.id">
-        <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :Albums="true" :playlist="playlistid"/>
+    <div class="artist-list">
+      <b-row cols="3">
+        <b-col v-for="artist in allArtists" :key="artist.id">
+          <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :albums="true" :playlist="playlistid"/>
+        </b-col>
+      </b-row>
     </div>
 
   </div>
@@ -56,3 +60,10 @@ export default {
   }
 }
 </script>
+
+<style>
+.artist-list {
+  width: 80%;
+  margin-left: 10%;
+}
+</style>
