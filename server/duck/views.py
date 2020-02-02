@@ -101,16 +101,12 @@ def add_to_playlists(request):
     return JsonResponse({'success': True})
 
 
-def artist_albums(request):
+def artist_albums(request, id):
     """Return all of an artist's albums, sorted by album type."""
 
     _, _, sp = get_auth(request)
-
-    # Get input from frontend
-    # artist_id = ?
-
-    # Fake input
-    artist_id = "07QEuhtrNmmZ0zEcqE9SF6"
+    
+    artist_id = id
 
     result_a = sp.artist_albums(artist_id, album_type="album", country="GB", limit=50)
     result_b = sp.artist_albums(artist_id, album_type="single", country="GB", limit=50)
