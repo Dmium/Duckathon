@@ -1,5 +1,5 @@
 <template>
-  <div class="playlist-songs">
+  <div>
     <div class="back-link">
       <router-link :to="{ name: 'playlists' }">Back to all playlists</router-link>
     </div>
@@ -60,6 +60,36 @@ export default {
 </script>
 
 <style>
+.playlist-container {
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 5%;
+    text-align: left;
+}
+
+.playlist {
+    margin: 1rem 0 1rem 0;
+}
+
+.new {
+  text-align: right;
+  margin-right: 5%;
+}
+
+.search {
+  width: 80%;
+  margin-left: 10%;
+  margin-top: 5%;
+}
+
+.album-icon-lg {
+  width: 70%;
+}
+
+.album-list {
+  width: 80%;
+  margin-left: 10%;
+}
 
 .back-link {
   text-align: left;
