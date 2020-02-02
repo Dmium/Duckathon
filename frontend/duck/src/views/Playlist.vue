@@ -23,7 +23,6 @@
 <script>
 import TrackPreview from '../components/TrackPreview.vue';
 
-import TrackPreview from '../components/TrackPreview.vue';
 
 export default {
   name: 'playlist',
