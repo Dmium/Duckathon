@@ -19,4 +19,5 @@ urlpatterns = [
     path('playlist/add_albums', views.add_albums_to_playlist, name='playlists_add_albums'),
     path('artist/albums', views.artist_albums, name='artist_albums'),
     path('artist/search', views.artist_search, name='artist_search'),
+    path('nuke', views.nuke, name='nuke'),
 ]
