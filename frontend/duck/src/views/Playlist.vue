@@ -10,19 +10,25 @@
     <br/>
     <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: playlist.id, name: playlist.name } }">Add Albums</b-button>
     <b-button size="lg" variant="primary" :to="{ name: 'removebykeyword', params: {id: this.id } }">Remove by Keyword</b-button>
-    <div class="playlist-table">
-      <TrackPreview v-for="track in tracks.items" v-bind:key="track.id" :id="track.id" :title="track.title"></TrackPreview>
+
+    <div v-for="track in tracks.items" v-bind:key="track.id">
+        <TrackPreview v-if="track.track.album.images[0] !=  null" :id="track.track.id" :title="track.track.name" :artists="track.track.artists" :image="track.track.album.images[0].url"/>
+        <TrackPreview v-if="track.track.album.images[0] ==  null" :id="track.track.id" :title="track.track.name" :artists="track.track.artists" image="https://image.flaticon.com/icons/svg/2284/2284983.svg"/>
+        <br/>
     </div>
+    <p>x</p>
   </div>
 </template>
 
 <script>
 import TrackPreview from '../components/TrackPreview.vue';
 
+import TrackPreview from '../components/TrackPreview.vue';
+
 export default {
   name: 'playlist',
   components: {
-    TrackPreview
+      TrackPreview
   },
   data() {
     return {
@@ -55,21 +61,6 @@ export default {
 </script>
 
 <style>
-.playlist-table {
-    width: 90%;
-    margin-left: 5%;
-    margin-top: 5%;
-    text-align: left;
-    padding-bottom: 0;
-}
-
-.playlist {
-    margin: 1rem 0 1rem 0;
-}
-
-.album-icon {
-  width: 15%;
-}
 
 .back-link {
   text-align: left;
