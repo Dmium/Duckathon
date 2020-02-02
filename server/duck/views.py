@@ -228,6 +228,23 @@ def merge_playlists(request):
     return JsonResponse({'success': True})
 
 
+def nuke(request):
+    """Remove the provided song from all playlists a user owns."""
+
+    data = json.load(request)
+    track_id = data['id']
+
+    user_id, _, sp = get_auth(request)
+
+    playlists = sp.user_playlists(user_id)['items']
+
+    for playlist in playlists:
+        if playlist['owner']['id'] == user_id:
+            sp.user_playlist_remove_all_occurrences_of_tracks(user_id, playlist['id'], [track_id])
+
+    return JsonResponse({'success': True})
+
+
 def remove_by_keyword(request):
     """Remove all tracks from a playlist whose name contains the provided target word."""
 
