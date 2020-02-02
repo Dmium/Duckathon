@@ -1,5 +1,6 @@
 import os
 import json
+import random
 
 from .spotipy_auth import get_auth
 
@@ -55,7 +56,6 @@ def add_albums_to_playlist(request):
     """Add all tracks from the provided albums to a specified playlist."""
 
     data = json.load(request)
-    print('test', data['playlist_id'])
 
     playlist_id = data['playlist_id']
     album_ids = data['album_ids']
@@ -341,3 +341,60 @@ def search(request, type, query):
 
     results = sp.search(query, limit=10, type=type, market="GB")
     return JsonResponse(results)
+
+
+def title_chain(request, word):
+    user_id, _, sp = get_auth(request)
+
+    skiplist = set(['dm', 'remix'])
+    seen = set()
+
+    # create playlist with name and description
+    playlist = sp.user_playlist_create(user_id, word+" Title Chain", description="The first word in each subsequent title matches the last word of the previous title.")
+
+    def find_tracks_that_start_with_word(word):
+        max_titles = 20
+        max_offset = 400
+        offset = 0
+
+        out = []
+        while offset < max_offset and len(out) < max_titles:
+            results = sp.search(q=word, type='track', limit=50, offset=offset)
+            if len(results['tracks']['items']) == 0:
+                break
+
+            for item in results['tracks']['items']:
+                name = item['name'].lower()
+                if name in seen:
+                    continue
+                seen.add(name)
+                if '(' in name:
+                    continue
+                if '-' in name:
+                    continue
+                if '/' in name:
+                    continue
+                words = name.split()
+                if len(words) > 1 and words[0] == word \
+                        and words[-1] not in skiplist:
+                    out.append(item)
+            offset += 50
+        return out
+
+    track_ids = []
+
+    # add up to 20 tracks with chained titles
+    which = 0
+    while True and which < 20:
+        tracks = find_tracks_that_start_with_word(word)
+        if len(tracks) > 0:
+            track = random.choice(tracks)
+            track_ids.append(track['id'])
+            word = track['name'].lower().split()[-1]
+            which += 1
+        else:
+            break
+
+    result = sp.user_playlist_add_tracks(user_id, playlist['id'], track_ids)
+
+    return JsonResponse(result)
