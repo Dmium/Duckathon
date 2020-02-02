@@ -13,6 +13,7 @@
       <b-row cols="3">
         <b-col v-for="playlist in filteredPlaylists" :key="playlist.id">
           <PlaylistPreview v-if="playlist.images[0] != null" class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
+          <PlaylistPreview v-if="playlist.images[0] == null" class="playlist" :title="playlist.name" :description="playlist.description" image="https://image.flaticon.com/icons/svg/2284/2284983.svg" :id="playlist.id"/>
         </b-col>
       </b-row>
     </div>
