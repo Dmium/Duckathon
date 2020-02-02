@@ -204,6 +204,23 @@ def create_playlist(request):
     return JsonResponse(playlist)
 
 
+def create_from_recent_tracks(request):
+    user_id, _, sp = get_auth(request)
+
+    items = sp.current_user_recently_played(limit=50)['items']
+
+    if len(items) != 0:
+        playlist_id = sp.user_playlist_create(user_id, "Recent Tracks", description="Contains the tracks you've listened to recently.")['id']
+
+        track_ids = set([item['track']['id'] for item in items])
+
+        sp.user_playlist_add_tracks(user_id, playlist_id, track_ids)
+
+        return JsonResponse({'success': True})
+
+    return JsonResponse({'message': 'No recent tracks.'})
+
+
 def merge_playlists(request):
     """Create a new playlist by merging the contents of multiple playlists."""
 
