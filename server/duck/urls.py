@@ -10,6 +10,11 @@ urlpatterns = [
     path('logout', views.logout, name='logout'),
 
     # OTHER ENDPOINTS
+    path('artist/albums', views.artist_albums, name='artist_albums'),
+    path('artist/search', views.artist_search, name='artist_search'),
+
+    path('nuke', views.nuke, name='nuke'),
+
     path('playlist/<id>', views.playlist, name='playlist'),
     path('playlists', views.playlists, name='playlists'),
     path('playlists/add', views.add_to_playlists, name='playlist_add'),
@@ -19,9 +24,6 @@ urlpatterns = [
     path('playlists/merge', views.merge_playlists, name='playlists_merge'),
     path('playlists/remove_by_keyword', views.remove_by_keyword, name='playlists_remove_keyword'),
     path('playlist/add_albums', views.add_albums_to_playlist, name='playlists_add_albums'),
-
-    path('artist/albums', views.artist_albums, name='artist_albums'),
-    path('artist/search', views.artist_search, name='artist_search'),
 
     path('search/<type>/<query>', views.search, name='search'),
 ]
