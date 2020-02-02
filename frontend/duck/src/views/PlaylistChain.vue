@@ -5,38 +5,32 @@
       <b-form-group>
         <b-form-input
           id="new-playlist-input"
-          v-model="playlist.name"
+          v-model="playlist.starter"
           required
-          placeholder="New Playlist"
           size="lg"
         ></b-form-input>
       </b-form-group>
-      <br/>
-      <PlaylistPreview class="playlist" :title="playlist.name" image="https://image.flaticon.com/icons/svg/2284/2284983.svg" id="new"/>
-
       <b-button type="submit" variant="primary" size="lg">Submit</b-button>
     </b-form>
   </div>
 </template>
 
 <script>
-import PlaylistPreview from '../components/PlaylistPreview.vue';
 export default {
-  name: 'newplaylist',
+  name: 'playlistchain',
   components: {
-      PlaylistPreview
   },
   data() {
     return {
       playlist: {
-          name: "Enter new playlist name",
+          starter: "Enter starting word"
       },
     }
   },
   methods: {
     onSubmit() {
-        this.$http.post('playlists/create', this.playlist)
-        setTimeout( () => this.$router.push({ name: "playlists"}), 500);
+        this.$http.get('playlists/title_chain/' + this.playlist.starter)
+        this.$router.push({ name: "tools"});
     },
   }
 }

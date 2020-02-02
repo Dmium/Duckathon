@@ -12,6 +12,7 @@ import ReverseNuke from '../views/Tools/ReverseNuke.vue'
 import PlaylistRemoveKeyword from '../views/PlaylistRemoveKeyword.vue'
 import Artist from '../views/Artist.vue'
 import RecentsPlaylist from '../views/Tools/RecentsPlaylist.vue'
+import PlaylistChain from '../views/PlaylistChain.vue'
 
 Vue.use(VueRouter)
 
@@ -50,7 +51,7 @@ const routes = [{
         component: SamplePosta
     },
     {
-        path: '/playlist/:id/add/album',
+        path: '/playlist/:id/add/album/:name',
         name: 'playlistaddalbum',
         component: PlaylistAddAlbum
     },
@@ -83,6 +84,11 @@ const routes = [{
         path: 'tools/recentsplaylist',
         name: 'recentsplaylist',
         component: RecentsPlaylist
+    },
+    {
+        path: '/playlistchain',
+        name: 'playlistchain',
+        component: PlaylistChain
     }
 ]
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="back-link">
-      <router-link :to="{ name: 'playlists' }">Back to {{ name }}</router-link>
+      <router-link :to="{ name: 'playlist', params: {id: id } }">Back to {{ name }}</router-link>
     </div>
     <h1>Search for an artist</h1>
     <b-form class="new-playlist-form" @submit="onSubmit">
@@ -43,6 +43,7 @@ export default {
   },
     mounted() {
         this.id = this.$route.params.id
+        this.name = this.$route.params.name
     },
   methods: {
     async getArtists(query) {
