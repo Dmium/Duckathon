@@ -9,12 +9,13 @@
     <div class="search">
       <vue-bootstrap-typeahead placeholder="Search for a playlist..." size="lg" v-model="selected" :data="filteredPlaylists" :serializer="p => p.name" :minMatchingChars="1" @hit="goToPlaylist($event)"/>
     </div>
-    <ul class="playlist-container">
-        <div v-for="playlist in filteredPlaylists" :key="playlist.id">
-            <PlaylistPreview v-if="playlist.images[0] != null" class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
-            <PlaylistPreview v-if="playlist.images[0] == null" class="playlist" :title="playlist.name" :description="playlist.description" image="https://image.flaticon.com/icons/svg/2284/2284983.svg" :id="playlist.id"/>
-        </div>
-    </ul>
+    <div class="album-list">
+      <b-row cols="3">
+        <b-col v-for="playlist in filteredPlaylists" :key="playlist.id">
+          <PlaylistPreview v-if="playlist.images[0] != null" class="playlist" :title="playlist.name" :description="playlist.description" :image="playlist.images[0].url" :id="playlist.id"/>
+        </b-col>
+      </b-row>
+    </div>
   </div>
 </template>
 
@@ -72,5 +73,14 @@ export default {
   width: 60%;
   margin-left: 20%;
   margin-top: 5%;
+}
+
+.album-icon-lg {
+  width: 70%;
+}
+
+.album-list {
+  width: 80%;
+  margin-left: 10%;
 }
 </style>

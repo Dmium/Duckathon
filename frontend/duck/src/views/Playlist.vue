@@ -13,15 +13,19 @@
             <b-th colspan="2">Song</b-th>
             <b-th>Artist</b-th>
             <b-th>Album</b-th>
+            <b-th>Actions</b-th>
           </b-tr>
         </b-thead>
         <b-tbody class="text-white">
           <b-tr v-for="track in tracks.items" v-bind:key="track.id">
-            <b-td><img v-if="track.track.album.images[0] !=  null" class="album-icon" :src="track.track.album.images[0].url"/></b-td>
-            <b-td><img v-if="track.track.album.images[0] ==  null" class="album-icon" src="https://image.flaticon.com/icons/svg/2284/2284983.svg"/></b-td>
+            <b-td>
+              <img v-if="track.track.album.images[0] !=  null" class="album-icon" :src="track.track.album.images[0].url"/>
+              <img v-else class="album-icon" src="https://image.flaticon.com/icons/svg/2284/2284983.svg"/>
+            </b-td>
             <b-th>{{ track.track.name }}</b-th>
             <b-td>{{ formatArtists(track.track.artists)}}</b-td>
             <b-td>{{ track.track.album.name }}</b-td>
+            <b-td>Delete/nuke/idk what else</b-td>
           </b-tr>
         </b-tbody>
       </b-table-simple>
