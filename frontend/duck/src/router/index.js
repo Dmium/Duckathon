@@ -6,6 +6,8 @@ import Playlist from '../views/Playlist.vue'
 import NewPlaylist from '../views/NewPlaylist.vue'
 import SamplePosta from '../views/SamplePosta.vue'
 import PlaylistAddAlbum from '../views/PlaylistAddAlbum.vue'
+import Tools from '../views/Tools.vue'
+import Nuke from '../views/Tools/Nuke.vue'
 
 Vue.use(VueRouter)
 
@@ -47,6 +49,16 @@ const routes = [{
         path: '/playlist/:id/add/album',
         name: 'playlistaddalbum',
         component: PlaylistAddAlbum
+    },
+    {
+        path: '/tools',
+        name: 'tools',
+        component: Tools
+    },
+    {
+        path: '/tools/nuke',
+        name: 'nuke',
+        component: Nuke
     }
 ]
 

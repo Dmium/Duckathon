@@ -8,6 +8,7 @@
         <div v-for="artist in artists"  :key="artist.id">
             {{ artist.name }}
         </div>
+        <b-button v-if="nuke == true" size="lg" variant="primary" v-on:click="nukesong">NUKE</b-button>
     </b-media>
 </template>
 
@@ -19,8 +20,15 @@ export default {
       id: String,
       title: String,
       artists: Array,
-      image: String
-  }
+      image: String,
+      nuke: Boolean
+  },
+  methods: {
+    nukesong() {
+        this.$http.post('nuke', {"id": this.id})
+        this.$router.push({ name: "tools"})
+    },
+  },
 }
 </script>
 

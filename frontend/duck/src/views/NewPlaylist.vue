@@ -37,7 +37,7 @@ export default {
     onSubmit() {
         this.$http.post('playlists/create', this.playlist)
         this.$router.push({ name: "playlists"})
-    }
+    },
   }
 }
 </script>
