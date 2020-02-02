@@ -55,11 +55,12 @@ def add_albums_to_playlist(request):
     """Add all tracks from the provided albums to a specified playlist."""
 
     data = json.load(request)
+    print('test', data['playlist_id'])
+
     playlist_id = data['playlist_id']
     album_ids = data['album_ids']
 
     user_id, _, sp = get_auth(request)
-
     # For each album ID, get the track IDs and store them
     track_ids = []
     for album_id in album_ids:

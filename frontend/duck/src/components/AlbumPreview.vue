@@ -6,7 +6,7 @@
                 <b-img v-if="image == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>
             </div>
             <div>
-                <b-button v-if="addtoplaylist == true" size="lg" variant="primary" >Add to Playlist</b-button>
+                <b-button v-if="addtoplaylist == true" size="lg" variant="primary" v-on:click="add">Add to Playlist</b-button>
             </div>
         </template>
 
@@ -26,6 +26,13 @@ export default {
       playlist: String
   },
   methods: {
+      add() {
+        this.$http.post('playlists/add_albums', {
+            playlist_id: this.playlist,
+            album_ids: [this.id]
+        })
+        this.addtoplaylist = false
+      }
   },
 }
 </script>
