@@ -150,7 +150,7 @@ def clone_playlist(request):
     user_id, _, sp = get_auth(request)
 
     # data = json.load(request)
-    data = {'id':'2KuCXqz9VoaXdzPOE93lWJ'}
+    data = {'id':'1q9tsT1RnrXRtLKBTri35F'}
 
     # get data of original playlist
     original = sp.user_playlist(user_id, data['id'])
@@ -183,7 +183,7 @@ def clone_playlist(request):
             user_id, clone['id'], track_ids[offset:(offset+100)], position=offset)
         offset += 100
 
-    return JsonResponse(original)
+    return JsonResponse(sp.playlist(clone['id']))
 
 
 def create_playlist(request):
