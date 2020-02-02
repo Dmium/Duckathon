@@ -165,22 +165,6 @@ def create_playlist(request):
     return JsonResponse(playlist)
 
 
-def playlist(request, id):
-    """Returns playlist details and details for its tracks."""
-    user_id, _, sp = get_auth(request)
-
-    return JsonResponse(sp.user_playlist(user_id, id, fields=None))
-
-
-def playlists(request):
-    """Returns all of a user's playlists."""
-    _, _, sp = get_auth(request)
-    results = sp.current_user_playlists(limit=50)
-
-    # return JsonResponse(results['items'])
-    return JsonResponse(results)
-
-
 def merge_playlists(request):
     """Create a new playlist by merging the contents of multiple playlists."""
 
@@ -228,6 +212,23 @@ def merge_playlists(request):
     return JsonResponse({'success': True})
 
 
+def playlist(request, id):
+    """Returns playlist details and details for its tracks."""
+    user_id, _, sp = get_auth(request)
+
+    results = sp.user_playlist(user_id, id, fields=None)
+    return JsonResponse(results)
+
+
+def playlists(request):
+    """Returns all of a user's playlists."""
+    _, _, sp = get_auth(request)
+    results = sp.current_user_playlists(limit=50)
+
+    # return JsonResponse(results['items'])
+    return JsonResponse(results)
+
+
 def remove_by_keyword(request):
     """Remove all tracks from a playlist whose name contains the provided target word."""
 
@@ -266,3 +267,12 @@ def remove_by_keyword(request):
         user_id, playlist_id, track_ids)
 
     return JsonResponse({'success': True})
+
+
+def search(request, type, query):
+    """Searches for a record of type (album, artist, track, playlist) similar to the query string."""
+
+    _, _, sp = get_auth(request)
+
+    results = sp.search(query, limit=10, type=type, market="GB")
+    return JsonResponse(results)
