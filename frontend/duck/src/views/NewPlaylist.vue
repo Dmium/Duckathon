@@ -7,7 +7,7 @@
           id="new-playlist-input"
           v-model="playlist.name"
           required
-          placeholder="Enter new playlist name"
+          placeholder="New Playlist"
           size="lg"
         ></b-form-input>
       </b-form-group>
@@ -36,7 +36,7 @@ export default {
   methods: {
     onSubmit() {
         this.$http.post('playlists/create', this.playlist)
-        this.$router.push({ name: "playlists"})
+        setTimeout( () => this.$router.push({ name: "playlists"}), 500);
     },
   }
 }
