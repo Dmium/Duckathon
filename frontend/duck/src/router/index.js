@@ -50,7 +50,7 @@ const routes = [{
         component: SamplePosta
     },
     {
-        path: '/playlist/:id/add/album',
+        path: '/playlist/:id/add/album/:name',
         name: 'playlistaddalbum',
         component: PlaylistAddAlbum
     },
