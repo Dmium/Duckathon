@@ -42,7 +42,7 @@ export default {
     }
   },
     mounted() {
-        this.playlistid = this.$route.params.id
+        this.id = this.$route.params.id
     },
   methods: {
     async getArtists(query) {
