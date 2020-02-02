@@ -6,6 +6,8 @@
     {{playlist.name}}</h1>
     <br/>
     <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: this.id } }">Add Albums</b-button>
+
+    <b-button size="lg" variant="primary" :to="{ name: 'removebykeyword', params: {id: this.id } }">Remove by Keyword</b-button>
     <div class="playlist-table">
       <b-table-simple hover small caption-top responsive sticky-header borderless text-white> 
         <b-thead head-variant="dark">

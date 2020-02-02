@@ -305,12 +305,14 @@ def remove_by_keyword(request):
     user_id, _, sp = get_auth(request)
 
     # Get input from frontend
-    # target_word = ?
-    # playlist_id = ?
+    data = json.load(request)
+    print(data)
+    target_word = data["keyword"]
+    playlist_id = data["playlist_id"]
 
     # Fake input - REMOVE WHEN FRONTEND IS LINKED
-    target_word = "Version"
-    playlist_id = "6JW6em51gITQVoMZpcjVHL"
+    # target_word = "Version"
+    # playlist_id = "6JW6em51gITQVoMZpcjVHL"
 
     # Get the playlist track info and store IDs of songs matching criteria
     track_ids = []
@@ -333,7 +335,7 @@ def remove_by_keyword(request):
     sp.user_playlist_remove_all_occurrences_of_tracks(
         user_id, playlist_id, track_ids)
 
-    return JsonResponse({'success': True})
+    return JsonResponse({'success': True, 'num_removed': len(track_ids)})
 
 
 def search(request, type, query):
