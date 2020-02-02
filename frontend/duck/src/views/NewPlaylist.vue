@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       playlist: {
-          name: "Asd",
+          name: "Enter new playlist name",
       },
     }
   },
