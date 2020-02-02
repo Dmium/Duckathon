@@ -7,7 +7,7 @@
       </router-link>
     </div>
     <div class="search">
-      <vue-bootstrap-typeahead placeholder="Search for a playlist..." size="lg" v-model="selected" :data="filteredPlaylists" :serializer="p => p.name" :minMatchingChars="1" @hit="goToPlaylist($event)"/>
+      <vue-bootstrap-typeahead placeholder="Search for a playlist..." size="lg" :data="filteredPlaylists" :serializer="p => p.name" :minMatchingChars="1" @hit="goToPlaylist($event)"/>
     </div>
     <div class="album-list">
       <b-row cols="3">
@@ -42,7 +42,7 @@ export default {
         this.filteredPlaylists = response.data.items
       })
       .catch(e => {
-        this.errors.push(e)
+        console.log(e);
       })
   },
   methods: {
@@ -71,8 +71,8 @@ export default {
 }
 
 .search {
-  width: 60%;
-  margin-left: 20%;
+  width: 80%;
+  margin-left: 10%;
   margin-top: 5%;
 }
 

@@ -1,5 +1,8 @@
 <template>
   <div class="playlist-songs">
+    <div class="back-link">
+      <router-link :to="{ name: 'playlists' }">Back to all playlists</router-link>
+    </div>
     <h1>
     <b-img v-if="playlist.images[0] != null" :src="this.playlist.images[0].url" width="64" alt="placeholder"></b-img>
     <b-img v-if="playlist.images[0] == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>    
@@ -86,5 +89,11 @@ export default {
 
 .playlist-songs {
   height: 100vh;
+}
+
+.back-link {
+  text-align: left;
+  margin-left: 5%;
+  margin-top: 2%;
 }
 </style>
