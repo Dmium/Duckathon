@@ -23,7 +23,6 @@ def callback(request):
     if token_info:
         # store the Spotify token in the session
         request.session['spotipy_token'] = token_info
-        print(request.session['spotipy_token'])
 
         sp = Spotify(auth= request.session['spotipy_token']['access_token'])
         request.session['user_id'] = sp.current_user()['id']
@@ -147,6 +146,46 @@ def artist_search(request):
         return JsonResponse({'success': False})
 
 
+def clone_playlist(request):
+    user_id, _, sp = get_auth(request)
+
+    # data = json.load(request)
+    data = {'id':'2KuCXqz9VoaXdzPOE93lWJ'}
+
+    # get data of original playlist
+    original = sp.user_playlist(user_id, data['id'])
+
+    # creation with name and description
+    clone = sp.user_playlist_create(user_id, original['name']+" - Clone", description=original['description'])
+
+    # setting public and collaborative
+    sp.user_playlist_change_details(user_id, clone['id'], public=original['public'], collaborative=original['collaborative'])
+
+    # add tracks
+    track_ids = []
+    more_tracks = True
+    offset = 0
+    while more_tracks:
+        # Get the next 100 tracks
+        result = sp.playlist_tracks(original['id'], offset=offset, limit=100)
+        for item in result['items']:
+            track_id = item['track']['id']
+            track_ids.append(track_id)
+        # Update more_tracks and the offset
+        more_tracks = result['next'] != None
+        offset += 100
+
+    # Add the list of songs to the new playlist
+    offset = 0
+    length = len(track_ids)
+    while offset < length:
+        sp.user_playlist_add_tracks(
+            user_id, clone['id'], track_ids[offset:(offset+100)], position=offset)
+        offset += 100
+
+    return JsonResponse(original)
+
+
 def create_playlist(request):
     """Create a new playlist. Needs a title and optionally a description, collaborative boolean, public boolean, and image."""
     user_id, _, sp = get_auth(request)
@@ -216,7 +255,7 @@ def playlist(request, id):
     """Returns playlist details and details for its tracks."""
     user_id, _, sp = get_auth(request)
 
-    results = sp.user_playlist(user_id, id, fields=None)
+    results = sp.user_playlist(user_id, id)
     return JsonResponse(results)
 
 
