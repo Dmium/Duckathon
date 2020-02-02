@@ -18,7 +18,7 @@
     <br/>
     <br/>
     <div v-for="artist in allArtists" :key="artist.id">
-        <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :Albums="true" :playlist="this.id"/>
+        <ArtistPreview class="playlist" :name="artist.name" :image="artist.images[0]" :id="artist.id" :Albums="true" :playlist="playlistid"/>
     </div>
 
   </div>
@@ -34,17 +34,18 @@ export default {
       ArtistPreview
   },
   props: {
-      id: String
   },
   data() {
     return {
+      playlistid: "",
       allArtists: [],
       artistname: "",
     }
   },
-  methods: {
     mounted() {
+        this.playlistid = this.$route.params.id
     },
+  methods: {
     onSubmit() {
         this.$http.get('search/artist/' + this.artistname)
             .then(response => {
@@ -53,9 +54,6 @@ export default {
             .catch(e => {
                 this.errors.push(e)
             })
-    },
-    created() {
-        this.id = this.$route.params.id
     }
   },
 }

@@ -9,6 +9,7 @@ import PlaylistAddAlbum from '../views/PlaylistAddAlbum.vue'
 import Tools from '../views/Tools.vue'
 import Nuke from '../views/Tools/Nuke.vue'
 import ReverseNuke from '../views/Tools/ReverseNuke.vue'
+import Artist from '../views/Artist.vue'
 
 Vue.use(VueRouter)
 
@@ -65,6 +66,11 @@ const routes = [{
         path: '/tools/reversenuke',
         name: 'reversenuke',
         component: ReverseNuke
+    },
+    {
+        path: '/addalbum/:playlistid/:artistid',
+        name: 'artist',
+        component: Artist
     }
 ]
 

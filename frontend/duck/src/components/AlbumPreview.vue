@@ -6,7 +6,7 @@
                 <b-img v-if="image == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>
             </div>
             <div>
-                <b-button v-if="Albums == true" size="lg" variant="primary" :to="{ name: 'artist', params: {playlistid: playlist, artistid: id} }">View Albums</b-button>
+                <b-button v-if="addtoplaylist == true" size="lg" variant="primary" >Add to Playlist</b-button>
             </div>
         </template>
 
@@ -17,21 +17,13 @@
 <script>
 
 export default {
-  name: 'artist-preview',
+  name: 'album-preview',
   props: {
       id: String,
       name: String,
       image: Object,
-      Albums: Boolean,
-      playlist: String,
-  },
-  data() {
-    return {
-      playlistid: "",
-      artistid: "",
-      allArtists: [],
-      artistname: "",
-    }
+      addtoplaylist: Boolean,
+      playlist: String
   },
   methods: {
   },
