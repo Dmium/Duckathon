@@ -5,9 +5,9 @@
     <b-img v-if="playlist.images[0] == null" src="https://image.flaticon.com/icons/svg/2284/2284983.svg" width="64" alt="placeholder"></b-img>    
     {{playlist.name}}</h1>
     <br/>
-    <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: id } }">Add Albums</b-button>
+    <b-button size="lg" variant="primary" :to="{ name: 'playlistaddalbum', params: {id: this.id } }">Add Albums</b-button>
     <div class="playlist-table">
-      <b-table-simple hover small caption-top responsive sticky-header borderless>
+      <b-table-simple hover small caption-top responsive sticky-header borderless text-white> 
         <b-thead head-variant="dark">
           <b-tr>
             <b-th colspan="2">Song</b-th>
@@ -15,9 +15,10 @@
             <b-th>Album</b-th>
           </b-tr>
         </b-thead>
-        <b-tbody>
+        <b-tbody class="text-white">
           <b-tr v-for="track in tracks.items" v-bind:key="track.id">
-            <b-td><img class="album-icon" :src="track.track.album.images[0].url"/></b-td>
+            <b-td><img v-if="track.track.album.images[0] !=  null" class="album-icon" :src="track.track.album.images[0].url"/></b-td>
+            <b-td><img v-if="track.track.album.images[0] ==  null" class="album-icon" src="https://image.flaticon.com/icons/svg/2284/2284983.svg"/></b-td>
             <b-th>{{ track.track.name }}</b-th>
             <b-td>{{ formatArtists(track.track.artists)}}</b-td>
             <b-td>{{ track.track.album.name }}</b-td>
@@ -39,18 +40,6 @@ export default {
       id: ""
     }
   },
-  created() {
-    this.id = this.$route.params.id
-    this.$http.get('playlist/' + this.id)
-      .then(response => {
-        // JSON responses are automatically parsed.
-        this.playlist = response.data
-        this.tracks = this.playlist.tracks
-      })
-      .catch(e => {
-        this.errors.push(e)
-      })
-  },
   methods: {
     formatArtists(artists) {
       if(artists.length === 1) return artists[0].name;
@@ -58,7 +47,19 @@ export default {
       artists.forEach(artist => response += artist.name + ", ");
       return response;
     }
-  }
+  },
+    mounted() {
+        this.id = this.$route.params.id
+        this.$http.get('playlist/' + this.id)
+        .then(response => {
+            // JSON responses are automatically parsed.
+            this.playlist = response.data
+            this.tracks = this.playlist.tracks
+        })
+        .catch(e => {
+            this.errors.push(e)
+        })
+    }
 }
 </script>
 
